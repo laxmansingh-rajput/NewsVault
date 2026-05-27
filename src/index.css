@@ -1,0 +1,28 @@
+*{
+  font-family:
+}
+@font-face {
+  font-family: great;
+  src: url('./assets/fonts/GreatVibes-Regular.ttf');
+}
+
+@font-face {
+  font-family: great2;
+  src: url('./assets/fonts/Chewy-Regular.ttf');
+}
+
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
+
+@theme {
+  --font-great: great, "sans-serif";
+  --font-great2: great2, "sans-serif"
+}

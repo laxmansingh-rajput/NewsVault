@@ -1,0 +1,22 @@
+<svg width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background circle -->
+  <circle cx="32" cy="32" r="30" fill="#14121F" stroke="#F7A928" stroke-width="2" opacity="0.5"/>
+
+  <!-- Lock body with golden cream gradient -->
+  <rect x="18" y="28" width="28" height="26" rx="6" fill="url(#goldGlass)" stroke="#F7A928" stroke-width="2"/>
+
+  <!-- Shackle -->
+  <path d="M24 28V22a8 8 0 0 1 16 0v6" fill="none" stroke="#F7A928" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Keyhole -->
+  <circle cx="32" cy="42" r="3" fill="#0F0C15" />
+  <line x1="32" y1="45" x2="32" y2="49" stroke="#0F0C15" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="goldGlass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCECCB" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#F7A928" stop-opacity="0.65"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,114 @@
+import { useState, useEffect } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+import next from '../assets/next.svg'
+import { useLocation } from 'react-router-dom';
+
+import loading from '../assets/loading.webm'
+import prev from '../assets/prev.svg'
+import badi from '../assets/zoomout.svg'
+import choti from '../assets/zoomin.svg'
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+function Pdfviewer() {
+    const location = useLocation();
+    const [numPages, setNumPages] = useState(null);
+    const [currPage, setcurrPage] = useState(1)
+    const [input, setinput] = useState("1")
+    const [width, setwidth] = useState(Math.min(window.innerWidth, 1600));
+    const [url, seturl] = useState("")
+    let key = location.state?.Key
+    let type = location.state?.ct
+    useEffect(() => {
+        (async () => {
+            const res = await fetch(`https://newsVault.laxmansinghrajput.site/content/pdfAccess?type=${type}&key=${key}`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+            let data = await res.json()
+            if (data.status) {
+                seturl(data.url)
+            }
+        })()
+    }, [])
+
+    function onDocumentLoadSuccess({ numPages }) {
+        setNumPages(numPages);
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            blurHandel();
+        }
+    };
+    const Loader = () => (
+        <div className="flex justify-center items-center h-96 flex-col gap-5">
+            <video src={loading} className="w-20 h-20" autoPlay loop></video>
+        </div>
+    );
+
+    const handelChange = (e) => {
+        setinput(e.target.value);
+    }
+    const blurHandel = () => {
+        const parsed = parseInt(input);
+        if (!isNaN(parsed) && parsed >= 1 && parsed <= numPages) {
+            setcurrPage(parsed);
+        }
+    }
+    const handelbada = () => setwidth(prev => Math.min(prev + 50, 1600));
+    const handelchota = () => setwidth(prev => Math.max(prev - 50, 300));
+
+    const handelPrev = () => {
+        let nextPage = currPage - 1
+        setcurrPage(currPage - 1)
+        setinput(String(nextPage));
+    }
+    const handelNext = () => {
+        let nextPage = currPage + 1
+        setcurrPage(currPage + 1)
+        setinput(String(nextPage));
+    }
+    return (
+        <div className=" w-screen h-screen flex justify-center bg-[#14121F] overflow-auto p-2 ">
+            <div className="h-10 w-[93%] rounded-full bg-neutral-100 fixed bottom-5 text-amber-50 z-20 flex justify-center  items-center 
+      gap-10 opacity-95 box-border p-10 text-xl border-1 border-[#14121F]  ">
+                <div className="h-14  w-14  flex justify-center items-center mr-auto">
+                    <img src={prev} className={"h-12 " + (currPage == 1 ? "hidden" : "")} onClick={handelPrev} alt="" />
+                </div>
+                <div className="flex justify-center item-center gap-2 max-[550px]:hidden">
+                    <img src={badi} className="h-10" alt="" onClick={handelbada} />
+                    <div className="h-10 border-1  border-[#14121F]"></div>
+                    <img src={choti} className="h-10" alt="" onClick={handelchota} />
+                </div>
+                <div className="flex items-center justify-center gap-3">
+                    <div className="bg-white w-10 h-10 rounded-md text-black flex items-center justify-center ">
+                        <input type="text" className="bg-white w-8 h-8 text-black text-center" value={input} onChange={(e) => handelChange(e)}
+                            onBlur={blurHandel} onKeyDown={handleKeyDown} />
+                    </div>
+                    <p className=" text-2xl text-black">
+                        of
+                    </p>
+                    <div className="bg-white w-10 h-10 rounded-md text-black flex items-center justify-center">
+                        <div className="bg-white w-8 h-8 text-black flex justify-center items-center" >{numPages}</div>
+                    </div>
+                </div>
+                <div className="h-14  w-14  flex justify-center items-center ml-auto" >
+                    <img src={next} className={"h-12 " + (currPage == numPages ? "hidden" : "")} alt="" onClick={handelNext} />
+                </div>
+            </div>
+
+            <div className=" shadow  w-full h-full overflow-auto mb-25 flex   justify-center">
+                <Document
+                    file={url}
+                    onLoadSuccess={onDocumentLoadSuccess} loading={Loader}
+                >
+                    <Page pageNumber={currPage} width={width} />
+                </Document>
+            </div>
+        </div>
+    );
+}
+
+export default Pdfviewer;
