@@ -62,36 +62,37 @@ Database / Cloud:
 
 ## 📁 Project Structure
 
+```
 NewsVault/
 │
-├── src/                          # Frontend React application
+├── src/                        # Frontend React application
 │   ├── components/
 │   ├── assets/
 │   └── main.jsx
 │
-├── backend/                      # Backend APIs (Node + Express)
+├── backend/                    # Backend APIs (Node + Express)
 │   ├── routes/
 │   ├── controllers/
 │   └── models/
 │
-├── public/                      # Static public files
-├── assets/                      # Images, icons, media
+├── public/                     # Static public files
+├── assets/                     # Images, icons, media files
+│
 ├── document/
-│   └── project report.pdf       📄 Project Report (click below)
+│   └── project report.pdf      # Project Report PDF
 │
 ├── screenshots/
 │   ├── home.png
 │   ├── dashboard.png
 │   ├── login.png
-│   ├── article.png
+│   └── article.png
 │
-├── timePass/
+├── timePass/                   # Experimental / test code
+│
 ├── vite.config.js
 ├── package.json
 └── README.md
-
----
-
+```
 ## 📸 Screenshots
 
 ![Home](./screenshots/home.png)  
